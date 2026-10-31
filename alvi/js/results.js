@@ -4,6 +4,9 @@
 // Reads real session data via ALVI.session.get() and populates the
 // Today's Snapshot page with actual measurements.
 //
+// Also calls ALVI.cognitiveEngine.analyze(session) to populate the
+// Task Performance Summary panel (engine-results-panel).
+//
 // No hardcoded clinical metrics. No AI predictions. No fake baselines.
 // Shows "Not recorded" or "Awaiting AI analysis" when data is unavailable.
 // ─────────────────────────────────────────────────────────────────────────────
@@ -97,7 +100,6 @@ document.addEventListener('DOMContentLoaded', () => {
   const mpReaction = document.getElementById('mindplay-reaction');
 
   if (session.mindplay.completed) {
-    // Overall score: 1 point per correct challenge
     const correctCount = [
       session.mindplay.ch1_correct,
       session.mindplay.ch2_correct,
@@ -150,10 +152,76 @@ document.addEventListener('DOMContentLoaded', () => {
     if (bannerSubtext) {
       bannerSubtext.textContent = 'No session data found. Please complete a check-in to see your results here.';
     }
-    // Dim the banner if nothing was done
     if (bannerEl) {
       bannerEl.classList.remove('from-indigo-600', 'via-indigo-700', 'to-purple-700');
       bannerEl.classList.add('from-slate-600', 'via-slate-700', 'to-slate-800');
+    }
+  }
+
+  // ── ENGINE RESULTS PANEL ───────────────────────────────────────────────────
+  // Only render if cognitive-engine.js loaded successfully
+  if (!window.ALVI || !ALVI.cognitiveEngine) {
+    console.warn('ALVI.cognitiveEngine not available — skipping engine panel.');
+    return;
+  }
+
+  const report = ALVI.cognitiveEngine.analyze(session);
+  const panel  = document.getElementById('engine-results-panel');
+  if (!panel) return;
+
+  // Show panel
+  panel.classList.remove('hidden');
+
+  // Disclaimer line
+  const discEl = document.getElementById('engine-disclaimer');
+  if (discEl) discEl.textContent = '⚠️ ' + report.disclaimer;
+
+  // ── Badge helper ────────────────────────────────────────────────────────────
+  function setBadge(id, completed) {
+    const el = document.getElementById(id);
+    if (!el) return;
+    if (completed) {
+      el.textContent = 'Completed';
+      el.className = 'ml-auto text-[10px] font-bold px-2 py-0.5 rounded-full bg-emerald-100 text-emerald-700';
+    } else {
+      el.textContent = 'Skipped';
+      el.className = 'ml-auto text-[10px] font-bold px-2 py-0.5 rounded-full bg-slate-100 text-slate-500';
+    }
+  }
+
+  // ── Voice ───────────────────────────────────────────────────────────────────
+  setBadge('eng-voice-badge', report.voice.completed);
+  const voiceObs = document.getElementById('eng-voice-obs');
+  if (voiceObs) voiceObs.textContent = report.voice.observation;
+
+  // ── Story ───────────────────────────────────────────────────────────────────
+  setBadge('eng-story-badge', report.story.completed);
+  const storyObs = document.getElementById('eng-story-obs');
+  if (storyObs) storyObs.textContent = report.story.observation;
+
+  // ── MindPlay ────────────────────────────────────────────────────────────────
+  setBadge('eng-mp-badge', report.mindplay.completed);
+  const mpObs = document.getElementById('eng-mp-obs');
+  if (mpObs) mpObs.textContent = report.mindplay.observation;
+
+  if (report.mindplay.completed) {
+    const mpDetails = document.getElementById('eng-mp-details');
+    if (mpDetails) mpDetails.classList.remove('hidden');
+
+    const ch1El = document.getElementById('eng-ch1');
+    if (ch1El && report.mindplay.ch1) ch1El.textContent = report.mindplay.ch1.label || '—';
+
+    const ch2El = document.getElementById('eng-ch2');
+    if (ch2El && report.mindplay.ch2) ch2El.textContent = report.mindplay.ch2.label || '—';
+
+    const ch3El = document.getElementById('eng-ch3');
+    if (ch3El && report.mindplay.ch3) ch3El.textContent = report.mindplay.ch3.label || '—';
+
+    const reactionEl = document.getElementById('eng-reaction');
+    if (reactionEl && report.mindplay.ch3) {
+      reactionEl.textContent = report.mindplay.ch3.reactionMs != null
+        ? report.mindplay.ch3.reactionFormatted + ' (' + report.mindplay.ch3.reactionLabel + ')'
+        : 'Not measured';
     }
   }
 

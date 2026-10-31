@@ -131,8 +131,8 @@
         <div class="flex items-center space-x-3">
           <span id="page-icon" class="text-2xl">⚡</span>
           <div>
-            <h2 id="header-title" class="text-xl font-bold text-slate-900">ALVI AI Analysis Engine</h2>
-            <p id="header-subtitle" class="text-xs text-slate-500">Processing multi-modal signals against personal baseline</p>
+            <h2 id="header-title" class="text-xl font-bold text-slate-900">Check-in Summary</h2>
+            <p id="header-subtitle" class="text-xs text-slate-500">Reviewing today's completed activities</p>
           </div>
         </div>
         
@@ -153,12 +153,12 @@
         <!-- AI ANALYSIS SECTION -->
         <section id="page-ai-analysis" class="page-view space-y-8 max-w-3xl mx-auto py-12 text-center">
           <div class="space-y-3">
-            <div class="inline-flex items-center space-x-2 px-3 py-1 rounded-full bg-indigo-100 text-indigo-700 text-xs font-semibold">
+            <div id="analysis-status-badge" class="inline-flex items-center space-x-2 px-3 py-1 rounded-full bg-indigo-100 text-indigo-700 text-xs font-semibold">
               <span class="w-2 h-2 rounded-full bg-indigo-600 animate-ping"></span>
-              <span>ALVI AI Core Engine Processing</span>
+              <span id="analysis-badge-text">Reviewing today's check-in activities...</span>
             </div>
-            <h1 class="text-3xl font-extrabold text-slate-900">Building today's cognitive snapshot</h1>
-            <p class="text-xs text-slate-500">Synthesizing acoustic, linguistic, memory recall, and reaction latency data.</p>
+            <h1 id="analysis-heading" class="text-3xl font-extrabold text-slate-900">Building today's session snapshot</h1>
+            <p id="analysis-subtext" class="text-xs text-slate-500">Checking which activities were recorded in this session.</p>
           </div>
 
           <div class="bg-slate-900 text-white rounded-3xl p-8 shadow-2xl border border-slate-800 space-y-8 relative overflow-hidden">
@@ -198,24 +198,29 @@
             <div class="space-y-3 text-left pt-2 text-xs border-t border-slate-800">
               <div id="step-proc-1" class="flex items-center space-x-3 text-slate-400">
                 <span class="step-check w-5 h-5 rounded-full bg-slate-800 flex items-center justify-center text-[10px]">1</span>
-                <span>Voice captured & acoustic spectrum mapped</span>
+                <span>Voice Description recorded</span>
               </div>
               <div id="step-proc-2" class="flex items-center space-x-3 text-slate-400">
                 <span class="step-check w-5 h-5 rounded-full bg-slate-800 flex items-center justify-center text-[10px]">2</span>
-                <span>Speech patterns & hesitation pauses extracted</span>
+                <span>Story Recall recorded</span>
               </div>
               <div id="step-proc-3" class="flex items-center space-x-3 text-slate-400">
                 <span class="step-check w-5 h-5 rounded-full bg-slate-800 flex items-center justify-center text-[10px]">3</span>
-                <span>Story recall semantic anchors verified</span>
+                <span>MindPlay completed</span>
               </div>
-              <div id="step-proc-4" class="flex items-center space-x-3 text-slate-400">
-                <span class="step-check w-5 h-5 rounded-full bg-slate-800 flex items-center justify-center text-[10px]">4</span>
-                <span>Cognitive interaction latency calculated</span>
-              </div>
+
             </div>
 
-            <div class="pt-2 text-center text-xs text-indigo-400 font-medium animate-pulse">
-              Comparing with your personal baseline history...
+            <!-- Outcome area — populated by analysis.js -->
+            <div id="analysis-footer" class="pt-2 text-center text-xs text-indigo-400 font-medium animate-pulse">
+              Checking session data...
+            </div>
+            <div id="analysis-incomplete-msg" class="hidden pt-3 text-center">
+              <p class="text-amber-300 font-semibold text-sm mb-3" id="analysis-incomplete-text">Some activities are missing from this session.</p>
+              <div class="flex flex-col sm:flex-row gap-3 justify-center">
+                <a href="results.html" class="px-5 py-2.5 bg-slate-700 hover:bg-slate-600 text-white rounded-xl text-xs font-bold transition">View Results Anyway</a>
+                <a href="dashboard.html" class="px-5 py-2.5 bg-indigo-600 hover:bg-indigo-500 text-white rounded-xl text-xs font-bold transition">Return to Dashboard</a>
+              </div>
             </div>
           </div>
         </section>
@@ -226,6 +231,8 @@
 
   <script src="js/app.js"></script>
   <script src="js/navigation.js"></script>
+  <script src="js/session.js"></script>
+  <script src="js/cognitive-engine.js"></script>
   <script src="js/analysis.js"></script>
 </body>
 </html>

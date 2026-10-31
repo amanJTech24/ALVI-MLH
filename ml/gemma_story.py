@@ -4,7 +4,7 @@ import re
 import json
 from google import genai
 
-from story_scoring import calculate_recall_score
+from ml.story_scoring import calculate_recall_score
 
 MODEL = "gemma-4-26b-a4b-it"
 
