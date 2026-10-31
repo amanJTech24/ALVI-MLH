@@ -4,7 +4,7 @@ import sys
 import numpy as np
 import librosa
 
-from predict import analyze_voice
+from ml.predict import analyze_voice
 
 
 def analyze_audio_for_backend(audio_path):

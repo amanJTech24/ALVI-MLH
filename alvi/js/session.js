@@ -65,7 +65,10 @@ window.ALVI = window.ALVI || {};
 
       voice: {
         completed:       false,
-        durationSeconds: 0
+        durationSeconds: 0,
+        mlStatus:        null,
+        speechFeatures:  null,
+        modelVersion:    null
       },
 
       story: {
@@ -179,8 +182,16 @@ window.ALVI = window.ALVI || {};
    * Example (on "Continue" without recording):
    *   ALVI.session.saveVoice({ completed: false, durationSeconds: 0 });
    */
-  function saveVoice({ completed = false, durationSeconds = 0 } = {}) {
-    _merge({ voice: { completed, durationSeconds } });
+  function saveVoice({
+    completed = false,
+    durationSeconds = 0,
+    mlStatus = null,
+    speechFeatures = null,
+    modelVersion = null
+  } = {}) {
+    _merge({ voice: {
+      completed, durationSeconds, mlStatus, speechFeatures, modelVersion
+    } });
   }
 
   /**

@@ -247,6 +247,67 @@
           <div class="p-4 rounded-2xl bg-slate-100 border border-slate-200 text-center text-xs text-slate-500">
             <p>ℹ️ <strong>Disclaimer:</strong> ALVI supports cognitive pattern monitoring and is not a diagnostic tool.</p>
           </div>
+
+          <!-- ENGINE RESULTS PANEL (populated by results.js via cognitive-engine.js) -->
+          <div id="engine-results-panel" class="hidden space-y-4">
+            <div class="flex items-center justify-between">
+              <h2 class="text-lg font-bold text-slate-800">Task Performance Summary</h2>
+              <span class="text-[10px] font-bold uppercase tracking-wider text-slate-500 bg-slate-100 border border-slate-200 px-2.5 py-1 rounded-full">Prototype · Rule-Based</span>
+            </div>
+            <p id="engine-disclaimer" class="text-xs text-amber-700 bg-amber-50 border border-amber-200 rounded-xl px-4 py-2.5 font-medium"></p>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+
+              <!-- Voice engine card -->
+              <div class="bg-white rounded-2xl p-5 border border-slate-200 shadow-sm">
+                <div class="flex items-center gap-2 mb-3">
+                  <span class="text-lg">🎙️</span>
+                  <span class="text-xs font-bold uppercase tracking-wider text-slate-500">Voice</span>
+                  <span id="eng-voice-badge" class="ml-auto text-[10px] font-bold px-2 py-0.5 rounded-full"></span>
+                </div>
+                <p id="eng-voice-obs" class="text-xs text-slate-600 leading-relaxed"></p>
+              </div>
+
+              <!-- Story engine card -->
+              <div class="bg-white rounded-2xl p-5 border border-slate-200 shadow-sm">
+                <div class="flex items-center gap-2 mb-3">
+                  <span class="text-lg">📖</span>
+                  <span class="text-xs font-bold uppercase tracking-wider text-slate-500">Story Recall</span>
+                  <span id="eng-story-badge" class="ml-auto text-[10px] font-bold px-2 py-0.5 rounded-full"></span>
+                </div>
+                <p id="eng-story-obs" class="text-xs text-slate-600 leading-relaxed"></p>
+              </div>
+
+              <!-- MindPlay engine card -->
+              <div class="bg-white rounded-2xl p-5 border border-slate-200 shadow-sm">
+                <div class="flex items-center gap-2 mb-3">
+                  <span class="text-lg">🎮</span>
+                  <span class="text-xs font-bold uppercase tracking-wider text-slate-500">MindPlay</span>
+                  <span id="eng-mp-badge" class="ml-auto text-[10px] font-bold px-2 py-0.5 rounded-full"></span>
+                </div>
+                <p id="eng-mp-obs" class="text-xs text-slate-600 leading-relaxed mb-3"></p>
+                <div id="eng-mp-details" class="hidden space-y-1 border-t border-slate-100 pt-2">
+                  <div class="flex justify-between text-[11px]">
+                    <span class="text-slate-400">Remember</span>
+                    <span id="eng-ch1" class="font-semibold text-slate-700"></span>
+                  </div>
+                  <div class="flex justify-between text-[11px]">
+                    <span class="text-slate-400">Sequence</span>
+                    <span id="eng-ch2" class="font-semibold text-slate-700"></span>
+                  </div>
+                  <div class="flex justify-between text-[11px]">
+                    <span class="text-slate-400">Find</span>
+                    <span id="eng-ch3" class="font-semibold text-slate-700"></span>
+                  </div>
+                  <div class="flex justify-between text-[11px]">
+                    <span class="text-slate-400">Reaction</span>
+                    <span id="eng-reaction" class="font-semibold text-slate-700"></span>
+                  </div>
+                </div>
+              </div>
+
+            </div>
+          </div>
         </section>
 
       </div>
@@ -256,6 +317,7 @@
   <script src="js/app.js"></script>
   <script src="js/navigation.js"></script>
   <script src="js/session.js"></script>
+  <script src="js/cognitive-engine.js"></script>
   <script src="js/results.js"></script>
 </body>
 </html>
